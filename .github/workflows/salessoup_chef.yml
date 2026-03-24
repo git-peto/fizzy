@@ -17,9 +17,6 @@ jobs:
       - name: Set Ruby version
         run: rbenv local 3.4.7
       - name: Install gem Bundle
-        run: |
-          BUNDLE_WITHOUT="development:test" bundle install
-      - name: Migrating Database
-        run: RAILS_ENV=production bin/rails db:migrate
+        run: bin/setup
       - name: Update App Instance
         run: pumactl phased-restart
