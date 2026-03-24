@@ -1,0 +1,25 @@
+name: Build and publish to Salessoup Chef
+on:
+  push:
+    branches:
+      - salessoup_chef
+jobs:
+  build:
+    strategy:
+      matrix:
+        runner: [salessoup_chef] # Replace with your runner names
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          clean: false
+      - name: Set Ruby version
+        run: rbenv local 3.4.7
+      - name: Install gem Bundle
+        run: |
+          BUNDLE_WITHOUT="development:test" bundle install
+      - name: Migrating Database
+        run: RAILS_ENV=production bin/rails db:migrate
+      - name: Update App Instance
+        run: pumactl phased-restart
