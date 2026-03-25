@@ -41,3 +41,8 @@
 
 /config/credentials/*.key
 .DS_Store
+
+.kamal
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+
